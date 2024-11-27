@@ -1,0 +1,25 @@
+meta {
+  name: mm-agent-orchestrator
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}:{{monolithic-main}}/generate-quiz/
+  body: multipartForm
+  auth: none
+}
+
+body:json {
+  {
+    "document_file":null,
+    "document_url":"https://en.wikipedia.org/wiki/Cricket",
+    "query":""
+  }
+}
+
+body:multipart-form {
+  url: null
+  file: @file(C:\Users\qs_te\Downloads\Cricket.pdf)
+  query: "Batting"
+}

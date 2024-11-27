@@ -2,4 +2,5 @@
 /.vscode
 /venv
 /microservices
+.env
 # /RAG-Quiz-App-Testing-APIs
