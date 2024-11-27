@@ -1,0 +1,23 @@
+meta {
+  name: mm-doc-parser
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}:{{monolithic-main}}/parse-document/
+  body: multipartForm
+  auth: none
+}
+
+body:json {
+  {
+    "file":null,
+    "url":"https://en.wikipedia.org/wiki/Cricket"
+  }
+}
+
+body:multipart-form {
+  file: @file(C:\Users\qs_te\Downloads\Cricket.pdf)
+  url: null
+}

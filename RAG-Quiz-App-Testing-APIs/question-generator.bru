@@ -1,0 +1,22 @@
+meta {
+  name: question-generator
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}:{{question-generation-service}}/generate-questions/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "text": "Cricket"
+  }
+}
+
+body:multipart-form {
+  file: @file(C:\Users\qs_te\Downloads\Cricket.pdf)
+  url: null
+}

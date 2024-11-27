@@ -1,0 +1,23 @@
+meta {
+  name: doc-parser
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}:{{doc-parser}}/parse-document/
+  body: multipartForm
+  auth: none
+}
+
+body:json {
+  {
+    "file":null,
+    "url":"https://en.wikipedia.org/wiki/Cricket"
+  }
+}
+
+body:multipart-form {
+  file: @file(C:\Users\qs_te\Downloads\Cricket.pdf)
+  url: null
+}

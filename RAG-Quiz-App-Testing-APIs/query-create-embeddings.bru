@@ -1,0 +1,22 @@
+meta {
+  name: query-create-embeddings
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}:{{embeddings-service}}/get-embeddings/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "text": "Batting"
+  }
+}
+
+body:multipart-form {
+  file: @file(C:\Users\qs_te\Downloads\Cricket.pdf)
+  url: null
+}

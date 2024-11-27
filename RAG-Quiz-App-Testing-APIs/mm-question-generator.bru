@@ -1,0 +1,44 @@
+meta {
+  name: mm-question-generator
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}:{{monolithic-main}}/generate-questions/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "concatenated_content_result": "• Bowling\n• Batting\n• Wicket keeping\n1 Fielding\nEssentially this involves catching and throwing in a variety of\ncircumstances both static or on the move.\nCATCHING\nThe High Catch\nObjective: To catch a ball which is dropping quickly.\nMethod: Sight the ball. Rise with bounce of ball.\nPalms facing ball, little fingers touching.\nHands forward to give as ball is taken.\nEyes level; head as still as possible (see Figure 36).\nFigure 36\nStanding up to the Wicket – The Stance move quickly.\nWhenever possible use two hands and get some part of the body\nbehind the ball unless this action would prevent a run out.\nHaving fielded a ball, throw it immediately to the wicketkeeper or, Deep-Mid-On•\nDeep-Mid-Off•\nLong-Off\n•\nDeep-Extra-Cover\nMid-On •\nMid-Wicket\n•\nSquare-Leg\n•Silly-Mid-On\n•\nForward-\nShort-Leg  •\n•\nLeg-Slip• Gully\n• Wicket-Keeper\n• Third-Slip•\nSecond-SlipFirst-Slip •\nMove FinerMove WiderMove Straighter\nMove Squarer\nMove Backwards• Backward-\nShort-Leg\nFigure 42 the possibility: \n“Look for two”,\n“Could be three”.\nGround the bat in either left or\nright hand so that the turn can be\nmade facing the direction inwhich the ball is being fielded.\nTurn\nLook – at the fielder to see\nwhether there is another\nrun.\nLook – at the other batsman to\nensure he can run again.",
+    "detailed_results": [
+      {
+        "content": "• Bowling\n• Batting\n• Wicket keeping\n1 Fielding\nEssentially this involves catching and throwing in a variety of\ncircumstances both static or on the move.\nCATCHING\nThe High Catch\nObjective: To catch a ball which is dropping quickly.\nMethod: Sight the ball.",
+        "score": 223.76670837402344
+      },
+      {
+        "content": "Rise with bounce of ball.\nPalms facing ball, little fingers touching.\nHands forward to give as ball is taken.\nEyes level; head as still as possible (see Figure 36).\nFigure 36\nStanding up to the Wicket – The Stance",
+        "score": 230.61260986328125
+      },
+      {
+        "content": "move quickly.\nWhenever possible use two hands and get some part of the body\nbehind the ball unless this action would prevent a run out.\nHaving fielded a ball, throw it immediately to the wicketkeeper or,",
+        "score": 232.1094970703125
+      },
+      {
+        "content": "Deep-Mid-On•\nDeep-Mid-Off•\nLong-Off\n•\nDeep-Extra-Cover\nMid-On •\nMid-Wicket\n•\nSquare-Leg\n•Silly-Mid-On\n•\nForward-\nShort-Leg  •\n•\nLeg-Slip• Gully\n• Wicket-Keeper\n• Third-Slip•\nSecond-SlipFirst-Slip •\nMove FinerMove WiderMove Straighter\nMove Squarer\nMove Backwards• Backward-\nShort-Leg\nFigure 42",
+        "score": 235.33819580078125
+      },
+      {
+        "content": "the possibility: \n“Look for two”,\n“Could be three”.\nGround the bat in either left or\nright hand so that the turn can be\nmade facing the direction inwhich the ball is being fielded.\nTurn\nLook – at the fielder to see\nwhether there is another\nrun.\nLook – at the other batsman to\nensure he can run again.",
+        "score": 238.38714599609375
+      }
+    ]
+  }
+}
+
+body:multipart-form {
+  file: @file(C:\Users\qs_te\Downloads\Cricket.pdf)
+  url: null
+}
