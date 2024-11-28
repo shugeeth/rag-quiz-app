@@ -26,15 +26,16 @@ app = FastAPI()
 # Agent Orchestrator
 class QuizRequest(BaseModel):
     document_file: Union[UploadFile, None] = None
-    document_url: Union[str, None] = None
+    document_url: str = ""
     query: str = ""
 
 @app.post("/generate-quiz/")
-async def generate_quiz(data: QuizRequest):
+async def generate_quiz(document_file: UploadFile = None, document_url: str = "", query:str = ""):
+
     # Step 1D: Parse document to smaller text chunks
     doc_parser_response = await parse_document(
-        file=data.document_file,
-        url=data.document_url
+        file=document_file,
+        url=document_url
     )
     if not doc_parser_response.get("text"):
         return {"error": "Failed to parse document"}
@@ -42,24 +43,26 @@ async def generate_quiz(data: QuizRequest):
         print("1D: Document parsing successfull")
 
     # Step 2D: Create chunks from the parsed data
-    doc_split_chunks_response = chunk_text_service(
-        {
+    chunk_text_input =  {
             "chunk_size": 300,
             "chunk_overlap": 50,
-            "text": doc_parser_response.text
+            "text": doc_parser_response["text"]
         }
-    )
+    chunk_text_input_object = ParsedTextData(**chunk_text_input)
+    doc_split_chunks_response = chunk_text_service(chunk_text_input_object)
     print("2D: Document chunk spliting successfull")
 
     # Step 3D: Convert document text chunks to vector embeddings
-    doc_create_embeddings_response = get_embeddings_list(doc_split_chunks_response)
+    create_embeddings_input_object = ChunkList(**doc_split_chunks_response)
+    doc_create_embeddings_response = get_embeddings_list(create_embeddings_input_object)
     if not doc_create_embeddings_response.get("embeddings"):
         return {"error": "Failed to generate embeddings from document"}
     else:
         print("3D: Document create embeddings successfull")
 
     # Step 4D: Add the document vector embeddings to FAISS for storage
-    doc_storage_response = add_embedding(doc_create_embeddings_response)
+    add_embeddings_input_object = EmbeddingList(**doc_create_embeddings_response)
+    doc_storage_response = add_embedding(add_embeddings_input_object)
     if not doc_storage_response.get("message"):
         return {"error": "Failed to add embeddings of document to the vector"}
     else:
@@ -67,14 +70,16 @@ async def generate_quiz(data: QuizRequest):
     print(doc_storage_response.get("message"))
 
     # Step 1Q: Get vector embeddings for the query text
-    query_embeddings_response = get_embeddings({
-        "text": data.query
-    })
+    query_embedding_input = {
+        "text": query
+    }
+    query_embedding_input_object=TextData(**query_embedding_input)
+    query_embeddings_response = get_embeddings(query_embedding_input_object)
     if not query_embeddings_response.get("embedding"):
         return {"error": "Failed to generate embeddings from query"}
     else:
         print("1Q: Query create embeddings successfull")
-    query_embedding_input = {
+    query_retrieval_input = {
         "query_embedding": query_embeddings_response["embedding"],
         "top_k": 5
     }
@@ -82,7 +87,8 @@ async def generate_quiz(data: QuizRequest):
     # Step 2Q: Retrieve the final query string (query_retrieval_response) 
     # from the vector embeddings similar to the query vector embeddings 
     # from the FAISS storage
-    query_retrieval_response = query_embedding(query_embedding_input)
+    query_retrieval_input_object = QueryData(**query_retrieval_input)
+    query_retrieval_response = query_embedding(query_retrieval_input_object)
     if not query_retrieval_response.get("concatenated_content_result"):
         return {"error": "Failed to query stored embeddings of document using prompt"}
     else:
@@ -96,7 +102,8 @@ async def generate_quiz(data: QuizRequest):
     print(doc_clear_embeddings_response.get("message"))
 
     # Step 3Q: Generate quiz questions based on the query relevant text
-    questions_response = generate_questions(query_retrieval_response)
+    questions_response_input_object = QuizPrompt(**query_retrieval_response)
+    questions_response = generate_questions(questions_response_input_object)
     if not questions_response.get("quiz"):
         return {"error": "Failed to retrieve questions from the query relevant text"}
     else:
